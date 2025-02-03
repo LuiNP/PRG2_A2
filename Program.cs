@@ -86,6 +86,8 @@ foreach (var flight in T5.Flights)
     }
 }
 
+
+
 /*foreach (var airlineEntry in T5.Airlines)//displays the flights in the airline.flights dict
 {
     var airline = airlineEntry.Value;
@@ -98,19 +100,76 @@ foreach (var flight in T5.Flights)
 }
 */
 
-/*
-1)	Load files (airlines and boarding gates)
-	load the airlines.csv file - done
-	create the Airline objects based on the data loaded -
-	add the Airlines objects into an Airline Dictionary -
-	load the boardinggates.csv file-
-	create the Boarding Gate objects based on the data loaded-
-	add the Boarding Gate objects into a Boarding Gate dictionary-
+int Menu()
+{
+    Console.WriteLine("---------------------------------------");
+    Console.WriteLine("Terminal 5 Menu");
+    Console.WriteLine("[1} List all flights with their basic information");
+    Console.WriteLine("[2} List all boarding gates");
+    Console.WriteLine("[3] Assign a boarding gate to a flight");
+    Console.WriteLine("[4] Create a new flight");
+    Console.WriteLine("[5] Display full flight details from an airline");
+    Console.WriteLine("[0] Display full flight details from an airline");
+    Console.WriteLine("---------------------------------------");
+    while (true)
+    {
+    Console.Write("Choose option: ");
+    var input = Console.ReadLine();
+    try
+        {
+            int option = Convert.ToInt32(input);
+            if (option < 6 && option > -1)
+            {
+                return option;
+            }
+            else
+            {
+                Console.WriteLine("Please input valid option");
+            }
+        }
+    catch (FormatException)
+        {
+            Console.WriteLine("Please input a number");
+        }
+        catch
+        {
+            Console.WriteLine("Unknown error");
+        }
 
-2)	Load files (flights)
-	load the flights.csv file
-	create the Flight objects based on the data loaded
-	add the Flight objects into a Dictionary
+    }
+
+
+}
+
+while (true)
+{
+    Menu();
+    if (Menu() == 1)
+    {
+
+    }
+    if (Menu() == 2) 
+    {
+
+    }
+    if (Menu() == 3) 
+    { 
+    }
+    if (Menu() == 4) 
+    { 
+    }
+    if (Menu() == 5) 
+    { 
+    }
+    if (Menu() == 0) 
+    {
+        break;
+    }
+
+}
+
+
+/*
 
 3)	List all flights with their basic information
 	display the Basic Information of all Flights, which are the 5 flight specifications (i.e. Flight Number, Airline Name, Origin, Destination, and Expected Departure/Arrival Time)
