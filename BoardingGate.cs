@@ -16,7 +16,7 @@ namespace PRG2_A2
 
         private bool supportsLWTT;
 
-        private Flight flight;
+        private Flight? flight;
         public string GateName
         {
             get { return gateName; }
@@ -44,6 +44,12 @@ namespace PRG2_A2
         { 
             get { return flight; } 
             set {  flight = value; } 
+        }
+
+        public BoardingGate(string gN, Flight f)
+        {
+            GateName = gN;
+            Flight = f;
         }
 
         public double CalculateFees()

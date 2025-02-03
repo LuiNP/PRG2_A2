@@ -38,6 +38,11 @@ namespace PRG2_A2
             get { return flights; }
         }
 
+        public Terminal(string tN) 
+        {
+            TerminalName = tN;
+        }
+
         public bool AddAirline(Airline airline)
         {
             if (Airlines.ContainsKey(airline.Code)) //  check to avoid duplicates

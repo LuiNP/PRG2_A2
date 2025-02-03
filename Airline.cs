@@ -28,6 +28,12 @@ namespace PRG2_A2
             get { return flights; }
         }
 
+        public Airline(string n, string c) 
+        {
+            name = n;
+            code = c;
+        }
+
         public bool AddFlight(Flight flight)
         {
             if (!Flights.ContainsKey(flight.FlightNumber)) //  check to avoid duplicates
