@@ -141,12 +141,22 @@ int Menu()
 
 }
 
+void ListAllFlights()
+{
+    Console.WriteLine();
+    Console.WriteLine("{0,-15}{1,-20}{2,-20}{3}","Flight Number", "Origin", "Destination", "Expected Time");
+    foreach (var flight in T5.Flights)
+    {
+        Flight flightentry = flight.Value;
+        Console.WriteLine("{0,-15}{1,-20}{2,-20}{3,6}", flightentry.FlightNumber, flightentry.Origin, flightentry.Destination, flightentry.ExpectedTime);
+    }
+}
+
 while (true)
 {
-    Menu();
     if (Menu() == 1)
     {
-
+        ListAllFlights();
     }
     if (Menu() == 2) 
     {
@@ -170,9 +180,6 @@ while (true)
 
 
 /*
-
-3)	List all flights with their basic information
-	display the Basic Information of all Flights, which are the 5 flight specifications (i.e. Flight Number, Airline Name, Origin, Destination, and Expected Departure/Arrival Time)
 
 4)	List all boarding gates
 	display all the Boarding Gates in Terminal 5 with all of the Special Request Codes they service (if any) and Flight Numbers assigned (if any)
