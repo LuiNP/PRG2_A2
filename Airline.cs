@@ -65,7 +65,7 @@ namespace PRG2_A2
         {
             return "Name: " + Name +
                 "Code; " + Code +
-                "Flights: " + Flights.Keys;
+                "Flights: " + Flights.Count;
         }
     }
 }
