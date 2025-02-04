@@ -1,4 +1,5 @@
 ﻿using PRG2_A2;
+using System.Data;
 
 Terminal T5 = new Terminal("Terminal 5");
 
@@ -104,6 +105,36 @@ foreach (var flight in T5.Flights)
 }
 */
 
+int numOptionCheck(int hi, int lo)
+{
+    Console.Write("Choose option: ");
+    var input = Console.ReadLine();
+    try
+    {
+        int option = Convert.ToInt32(input);
+        if (option < hi && option > lo)
+        {
+            return option;
+        }
+        else
+        {
+            Console.WriteLine("Please input valid option");
+            return -1;
+        }
+    }
+    catch (FormatException)
+    {
+        Console.WriteLine("Please input a number");
+        return -1;
+    }
+    catch
+    {
+        Console.WriteLine("Unknown error");
+        return -1;
+    }
+
+}
+
 int Menu()
 {
     Console.WriteLine("---------------------------------------");
@@ -113,84 +144,188 @@ int Menu()
     Console.WriteLine("[3] Assign a boarding gate to a flight");
     Console.WriteLine("[4] Create a new flight");
     Console.WriteLine("[5] Display full flight details from an airline");
-    Console.WriteLine("[0] Display full flight details from an airline");
+    Console.WriteLine("[0] Exit");
     Console.WriteLine("---------------------------------------");
     while (true)
     {
-    Console.Write("Choose option: ");
-    var input = Console.ReadLine();
-    try
+        return numOptionCheck(6, -1);
+    }
+}
+    void ListAllFlights()
+    {
+        Console.WriteLine();
+        Console.WriteLine("{0,-15}{1,-20}{2,-20}{3}", "Flight Number", "Origin", "Destination", "Expected Time");
+        foreach (var flight in T5.Flights)
         {
-            int option = Convert.ToInt32(input);
-            if (option < 6 && option > -1)
+            Flight flightentry = flight.Value;
+            Console.WriteLine("{0,-15}{1,-20}{2,-20}{3,6}", flightentry.FlightNumber, flightentry.Origin, flightentry.Destination, flightentry.ExpectedTime);
+        }
+    }
+
+    void ListAllBoardingGates()
+    {
+        Console.WriteLine("{0,-15}{1,-10}{2,-10}{3,-10}{4}", "Gate Name", "DDJB", "CFFT", "LWTT", "Assigned Flight");
+        foreach (var gate in T5.BoardingGates)
+        {
+            BoardingGate gateentry = gate.Value;
+            Console.WriteLine("{0,-15}{1,-10}{2,-10}{3,-10}{4}", gateentry.GateName, gateentry.SupportsDDJB, gateentry.SupportsCFFT, gateentry.SupportsLWTT, gateentry.Flight?.FlightNumber);
+        }
+    }
+
+    void AssignBoardingGate()
+    {
+        bool flightFound = false;
+
+        while (!flightFound)
+        {
+            Console.Write("Flight number: ");
+            string input = Console.ReadLine();
+
+            foreach (var flight in T5.Flights)
             {
-                return option;
+                Flight f = flight.Value;
+                if (input == f.FlightNumber)
+                {
+                    Flight flightentry = flight.Value;
+                    Console.WriteLine("{0}{1}", "Flight Number: ", flightentry.FlightNumber);
+                    Console.WriteLine("{0}{1}", "Origin: ", flightentry.Origin);
+                    Console.WriteLine("{0}{1}", "Destination: ", flightentry.Destination);
+                    Console.WriteLine("{0}{1}", "Expected Time: ", flightentry.ExpectedTime);
+
+                    if (flightentry is NORMFlight)
+                    {
+                        Console.WriteLine("Special request code: None");
+                    }
+                    else if (flightentry is DDJBFlight)
+                    {
+                        Console.WriteLine("Special request code: DDJB");
+                    }
+                    else if (flightentry is CFFTFlight)
+                    {
+                        Console.WriteLine("Special request code: CFFT");
+                    }
+                    else if (flightentry is LWTTFlight)
+                    {
+                        Console.WriteLine("Special request code: LWTT");
+                    }
+
+                    flightFound = true;
+
+
+                    bool gateFound = false;
+                    while (!gateFound)
+                    {
+                        Console.Write("Gate number: ");
+                        string gateput = Console.ReadLine();
+
+                        foreach (var gate in T5.BoardingGates)
+                        {
+                            BoardingGate g = gate.Value;
+                            if (gateput == g.GateName)
+                            {
+                                gateFound = true;
+                                if (g.Flight is null)
+                                {
+                                    Console.WriteLine("{0}{1}", "Supports DDJB", g.SupportsDDJB);
+                                    Console.WriteLine("{0}{1}", "Supports CFFT", g.SupportsCFFT);
+                                    Console.WriteLine("{0}{1}", "Supports LWTT", g.SupportsLWTT);
+                                    while (true)
+                                    {
+                                        Console.WriteLine("Would you like to update the status of the flight? (Y/N)");
+                                        string update = Console.ReadLine();
+                                    if (update == "Y")
+                                    {
+                                        while (true)
+                                        {
+                                            Console.WriteLine("1. Delayed");
+                                            Console.WriteLine("2. Boarding");
+                                            Console.WriteLine("3. On Time");
+                                            Console.WriteLine("Please select the new status of the flight:");
+                                            int stat = numOptionCheck(4, 0);
+                                            {
+                                                if (stat == 1)
+                                                {
+                                                    flightentry.Status = "Delayed";
+                                                }
+                                                else if (stat == 2)
+                                                {
+                                                    flightentry.Status = "Boarding";
+                                                }
+                                                else
+                                                {
+                                                    flightentry.Status = "On Time";
+                                                }
+                                                break;
+                                            }
+                                        }
+
+                                    }
+                                    else if (update == "N")
+                                    {
+                                        Console.WriteLine("{0}{1}{2}{3}{4}", "Flight ", input, " has been assigned to Boarding Gate ", gateput, "!");
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Please select a valid option");
+                                    }
+                                    }
+                                g.Flight = flightentry;
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Gate already assigned");
+                                }
+
+                            }
+                        }
+
+                        if (!gateFound)
+                        {
+                            Console.WriteLine("Gate not found, please try again.");
+                        }
+                    }
+                }
             }
-            else
+            if (!flightFound)
             {
-                Console.WriteLine("Please input valid option");
+                Console.WriteLine("Flight not found, please try again.");
             }
         }
-    catch (FormatException)
+
+
+    }
+
+ while (true)
+    {
+        int option = Menu();
+        if (option == 1)
         {
-            Console.WriteLine("Please input a number");
+            ListAllFlights();
         }
-        catch
+        else if (option == 2)
         {
-            Console.WriteLine("Unknown error");
+            ListAllBoardingGates();
+        }
+        else if (option == 3)
+        {
+            AssignBoardingGate();
+        }
+        else if (option == 4)
+        {
+        }
+        else if (option == 5)
+        {
+        }
+        else if (option == 0)
+        {
+            break;
         }
 
     }
 
 
-}
-
-void ListAllFlights()
-{
-    Console.WriteLine();
-    Console.WriteLine("{0,-15}{1,-20}{2,-20}{3}","Flight Number", "Origin", "Destination", "Expected Time");
-    foreach (var flight in T5.Flights)
-    {
-        Flight flightentry = flight.Value;
-        Console.WriteLine("{0,-15}{1,-20}{2,-20}{3,6}", flightentry.FlightNumber, flightentry.Origin, flightentry.Destination, flightentry.ExpectedTime);
-    }
-}
-
-void ListAllBoardingGates()
-{
-    Console.WriteLine("{0,-15}{1,-10}{2,-10}{3,-10}{4}", "Gate Name", "DDJB", "CFFT", "LWTT", "Assigned Flight");
-    foreach (var gate in T5.BoardingGates)
-    {
-        BoardingGate gateentry = gate.Value;
-        Console.WriteLine("{0,-15}{1,-10}{2,-10}{3,-10}{4}", gateentry.GateName, gateentry.SupportsDDJB, gateentry.SupportsCFFT, gateentry.SupportsLWTT, gateentry.Flight?.FlightNumber);
-    }
-}
-    while (true)
-{
-    int option = Menu();
-    if (option == 1)
-    {
-        ListAllFlights();
-    }
-    else if (option == 2) 
-    {
-        ListAllBoardingGates();
-    }
-    else if (option == 3) 
-    { 
-    }
-    else if (option == 4) 
-    { 
-    }
-    else if (option == 5) 
-    { 
-    }
-    else if (option == 0) 
-    {
-        break;
-    }
-
-}
 
 
 /*
