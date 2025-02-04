@@ -1,6 +1,12 @@
 ﻿using PRG2_A2;
 using System.Data;
 
+//==========================================================
+// Student Number	: S10258280G
+// Student Name	: Reyes Luis Raphael Penaredondo
+// (Luis)
+//==========================================================
+
 Terminal T5 = new Terminal("Terminal 5");
 
 string[] als = File.ReadAllLines("airlines.csv");
