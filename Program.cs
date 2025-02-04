@@ -15,57 +15,61 @@ for (int i = 1; i < als.Length; i++)
 
 bool bgboolstrCheck(string s)
 {
-    if (s == "True")
+    if (s.Trim().ToLower() == "true")
     {
         return true;
     }
-    else if (s == "False")
+    else if (s.Trim().ToLower() == "false")
     {
         return false;
     }
     else
     {
-        return false;
         Console.WriteLine("Warning: Not recognised");
+        return false;
+        
     }
 
 }
+
 
 
 for (int i = 1; i < bgs.Length; i++)
 {
-    string[] bgdetail = bgs[i].Split(',');
+    string[] bgdetail = bgs[i].Trim().Split(',');
 
     BoardingGate boardingGate = new BoardingGate(bgdetail[0], null, bgboolstrCheck(bgdetail[1]), bgboolstrCheck(bgdetail[2]), bgboolstrCheck(bgdetail[3]));
+    //Console.WriteLine(bgdetail[0], null, bgboolstrCheck(bgdetail[1]), bgboolstrCheck(bgdetail[2]), bgboolstrCheck(bgdetail[3]));
+    //for if You need to see the items manually
     T5.AddBoardingGate(boardingGate);
-
-
-    for (int i2 = 1; i < fs.Length; i++)
-    {
-        string[] fdetail = fs[i].Split(',');//note: the fourth is either the code or a blank string. 0 is code, 1 is origin, 2 destination, 3 expected a/d, 4 for req
-        if (fdetail[4] == "LWTT")
-        {
-            LWTTFlight flight = new LWTTFlight(fdetail[0], fdetail[1], fdetail[2], DateTime.Parse(fdetail[3]), "On Time");
-            T5.Flights.Add(flight.FlightNumber, flight);
-        }
-        else if (fdetail[4].Trim() == "DDJB")
-        {
-            DDJBFlight flight = new DDJBFlight(fdetail[0], fdetail[1], fdetail[2], DateTime.Parse(fdetail[3]), "On Time");
-            T5.Flights.Add(flight.FlightNumber, flight);
-        }
-        else if (fdetail[4].Trim() == "CFFT")
-        {
-            CFFTFlight flight = new CFFTFlight(fdetail[0], fdetail[1], fdetail[2], DateTime.Parse(fdetail[3]), "On Time");
-            T5.Flights.Add(flight.FlightNumber, flight);
-        }
-        else if (fdetail[4].Trim() == "")
-        {
-            NORMFlight flight = new NORMFlight(fdetail[0], fdetail[1], fdetail[2], DateTime.Parse(fdetail[3]), "On Time");//gonna need to make sure any date inputed is correct
-            T5.Flights.Add(flight.FlightNumber, flight);
-        }
-        else { Console.WriteLine("{0}{1}", "Unrecognised request code in item ", i2 - 1); }
-    }
 }
+
+for (int i = 1; i < fs.Length; i++)
+{
+    string[] fdetail = fs[i].Split(',');//note: the fourth is either the code or a blank string. 0 is code, 1 is origin, 2 destination, 3 expected a/d, 4 for req
+    if (fdetail[4] == "LWTT")
+    {
+        LWTTFlight flight = new LWTTFlight(fdetail[0], fdetail[1], fdetail[2], DateTime.Parse(fdetail[3]), "On Time");
+        T5.Flights.Add(flight.FlightNumber, flight);
+    }
+    else if (fdetail[4].Trim() == "DDJB")
+    {
+        DDJBFlight flight = new DDJBFlight(fdetail[0], fdetail[1], fdetail[2], DateTime.Parse(fdetail[3]), "On Time");
+        T5.Flights.Add(flight.FlightNumber, flight);
+    }
+    else if (fdetail[4].Trim() == "CFFT")
+    {
+        CFFTFlight flight = new CFFTFlight(fdetail[0], fdetail[1], fdetail[2], DateTime.Parse(fdetail[3]), "On Time");
+        T5.Flights.Add(flight.FlightNumber, flight);
+    }
+    else if (fdetail[4].Trim() == "")
+    {
+        NORMFlight flight = new NORMFlight(fdetail[0], fdetail[1], fdetail[2], DateTime.Parse(fdetail[3]), "On Time");//gonna need to make sure any date inputed is correct
+        T5.Flights.Add(flight.FlightNumber, flight);
+    }
+    else { Console.WriteLine("{0}{1}", "Unrecognised request code in item ", i - 1); }
+}
+
 
 foreach (var flight in T5.Flights)
 {
@@ -152,26 +156,36 @@ void ListAllFlights()
     }
 }
 
-while (true)
+void ListAllBoardingGates()
 {
-    if (Menu() == 1)
+    Console.WriteLine("{0,-15}{1,-10}{2,-10}{3,-10}{4}", "Gate Name", "DDJB", "CFFT", "LWTT", "Assigned Flight");
+    foreach (var gate in T5.BoardingGates)
+    {
+        BoardingGate gateentry = gate.Value;
+        Console.WriteLine("{0,-15}{1,-10}{2,-10}{3,-10}{4}", gateentry.GateName, gateentry.SupportsDDJB, gateentry.SupportsCFFT, gateentry.SupportsLWTT, gateentry.Flight?.FlightNumber);
+    }
+}
+    while (true)
+{
+    int option = Menu();
+    if (option == 1)
     {
         ListAllFlights();
     }
-    if (Menu() == 2) 
+    else if (option == 2) 
     {
-
+        ListAllBoardingGates();
     }
-    if (Menu() == 3) 
+    else if (option == 3) 
     { 
     }
-    if (Menu() == 4) 
+    else if (option == 4) 
     { 
     }
-    if (Menu() == 5) 
+    else if (option == 5) 
     { 
     }
-    if (Menu() == 0) 
+    else if (option == 0) 
     {
         break;
     }
@@ -180,9 +194,6 @@ while (true)
 
 
 /*
-
-4)	List all boarding gates
-	display all the Boarding Gates in Terminal 5 with all of the Special Request Codes they service (if any) and Flight Numbers assigned (if any)
 
 5)	Assign a boarding gate to a flight
 	prompt the user for the Flight Number
