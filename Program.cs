@@ -233,43 +233,45 @@ int Menu()
                                     {
                                         Console.WriteLine("Would you like to update the status of the flight? (Y/N)");
                                         string update = Console.ReadLine();
-                                    if (update == "Y")
-                                    {
-                                        while (true)
+                                        if (update == "Y")
                                         {
-                                            Console.WriteLine("1. Delayed");
-                                            Console.WriteLine("2. Boarding");
-                                            Console.WriteLine("3. On Time");
-                                            Console.WriteLine("Please select the new status of the flight:");
-                                            int stat = numOptionCheck(4, 0);
+                                            while (true)
                                             {
-                                                if (stat == 1)
+                                                Console.WriteLine("1. Delayed");
+                                                Console.WriteLine("2. Boarding");
+                                                Console.WriteLine("3. On Time");
+                                                Console.WriteLine("Please select the new status of the flight:");
+                                                int stat = numOptionCheck(4, 0);
                                                 {
-                                                    flightentry.Status = "Delayed";
+                                                    if (stat == 1)
+                                                    {
+                                                        flightentry.Status = "Delayed";
+                                                        break;
+                                                    }
+                                                    else if (stat == 2)
+                                                    {
+                                                        flightentry.Status = "Boarding";
+                                                        break;
+                                                    }
+                                                    else
+                                                    {
+                                                        flightentry.Status = "On Time";
+                                                        break;
+                                                    }
                                                 }
-                                                else if (stat == 2)
-                                                {
-                                                    flightentry.Status = "Boarding";
-                                                }
-                                                else
-                                                {
-                                                    flightentry.Status = "On Time";
-                                                }
-                                                break;
-                                            }
-                                        }
+                                            }break;
 
-                                    }
-                                    else if (update == "N")
-                                    {
-                                        Console.WriteLine("{0}{1}{2}{3}{4}", "Flight ", input, " has been assigned to Boarding Gate ", gateput, "!");
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Please select a valid option");
-                                    }
-                                    }
+                                        }
+                                        else if (update == "N")
+                                        {
+                                            Console.WriteLine("{0}{1}{2}{3}{4}", "Flight ", input, " has been assigned to Boarding Gate ", gateput, "!");
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Please select a valid option");
+                                        }
+                                        }
                                 g.Flight = flightentry;
                                     break;
                                 }
