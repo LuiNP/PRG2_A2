@@ -48,7 +48,7 @@ for (int i = 1; i < bgs.Length; i++)
 for (int i = 1; i < fs.Length; i++)
 {
     string[] fdetail = fs[i].Split(',');//note: the fourth is either the code or a blank string. 0 is code, 1 is origin, 2 destination, 3 expected a/d, 4 for req
-    if (fdetail[4] == "LWTT")
+    if (fdetail[4].Trim() == "LWTT")
     {
         LWTTFlight flight = new LWTTFlight(fdetail[0], fdetail[1], fdetail[2], DateTime.Parse(fdetail[3]), "On Time");
         T5.Flights.Add(flight.FlightNumber, flight);
@@ -330,16 +330,6 @@ int Menu()
 
 /*
 
-5)	Assign a boarding gate to a flight
-	prompt the user for the Flight Number
-	display the basic information of the selected Flight, including the Special Request Code (if any)
-	prompt the user for the Boarding Gate
-	check that the selected Boarding Gate is not assigned to another Flight (Note: For Basic Features, there is no need to validate if the Special Request Codes between Flights and Boarding Gates match)
-o	if the Boarding Gate selected is already assigned to another flight, display a message that the Boarding Gate is already assigned and repeat the previous step
-	display the basic information of the selected Flight, Special Request Code (if any), and Boarding Gate entered
-	prompt the user if they would like to update the Status of the Flight, with a new Status of any of the following options: “Delayed”, “Boarding”, or “On Time” [Y] or set the Status of the Flight to the default of “On Time” and continue to the next step if [N]
-	display a message to indicate a successful Boarding Gate assignment
-
 6)	Create a new flight
 	prompt the user to enter the new Flight, which minimally requires the 4 flight specifications (i.e. Flight Number, Origin, Destination, and Expected Departure/Arrival Time)
 	prompt the user if they would like to enter any additional information, like the Special Request Code
@@ -389,6 +379,5 @@ o	for each Flight
 	compute the subtotal of discounts to be applied for each Airline based on the Promotional Conditions that they qualify for
 	display the total final fees to be charged with a breakdown of the original subtotal calculated against the subtotal of discounts for the day
 	compute and display the subtotal of all the Airline fees to be charged, the subtotal of all Airline discounts to be deducted, the final total of Airline fees that Terminal 5 will collect, and the percentage of the subtotal discounts over the final total of fees
-
 
 */
