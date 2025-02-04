@@ -104,7 +104,12 @@ foreach (var flight in T5.Flights)
     }
 }
 */
-
+void terminalmsg(string  msg)
+{
+    Console.WriteLine(" =============================================");
+    Console.WriteLine(msg);
+    Console.WriteLine(" =============================================");
+}
 int numOptionCheck(int hi, int lo, string chooseMsg)
 {
     Console.Write(chooseMsg);
@@ -137,15 +142,14 @@ int numOptionCheck(int hi, int lo, string chooseMsg)
 
 int Menu()//need to adjust format
 {
-    Console.WriteLine("---------------------------------------");
-    Console.WriteLine("Terminal 5 Menu");
-    Console.WriteLine("[1} List all flights with their basic information");
-    Console.WriteLine("[2} List all boarding gates");
-    Console.WriteLine("[3] Assign a boarding gate to a flight");
-    Console.WriteLine("[4] Create a new flight");
-    Console.WriteLine("[5] Display full flight details from an airline");
-    Console.WriteLine("[0] Exit");
-    Console.WriteLine("---------------------------------------");
+    terminalmsg("Welcome to Changi Airport Terminal 5");
+    Console.WriteLine("1. List All Flights");
+    Console.WriteLine("2. List Boarding Gates");
+    Console.WriteLine("3. Assign a Boarding Gate to a Flight");
+    Console.WriteLine("4. Create Flight");
+    Console.WriteLine("5. Display Airline Flights");
+    Console.WriteLine("0. Exit");
+    Console.WriteLine();
     while (true)
     {
         return numOptionCheck(6, -1, "Choose Option: ");
@@ -153,7 +157,7 @@ int Menu()//need to adjust format
 }
 void ListAllFlights()
 {
-    Console.WriteLine();
+    terminalmsg("List of Flights for Changi Airport Terminal 5");
     Console.WriteLine("{0,-15}{1,-20}{2,-20}{3}", "Flight Number", "Origin", "Destination", "Expected Time");
     foreach (var flight in T5.Flights)
     {
@@ -164,6 +168,7 @@ void ListAllFlights()
 
 void ListAllBoardingGates()
 {
+    terminalmsg("List of Boarding Gates for Changi Airport Terminal 5");
     Console.WriteLine("{0,-15}{1,-10}{2,-10}{3,-10}{4}", "Gate Name", "DDJB", "CFFT", "LWTT", "Assigned Flight");
     foreach (var gate in T5.BoardingGates)
     {
@@ -174,6 +179,7 @@ void ListAllBoardingGates()
 
 void AssignBoardingGate()
 {
+    terminalmsg("Assign a Boarding Gate to a Flight");
     bool flightFound = false;
 
     while (!flightFound)
@@ -304,7 +310,6 @@ void CreateFlight()
     string dIn;
     string codeIn;   
 
-
     while (true)//for if you want to add multiple
     {
         while (true)//set up flight number
@@ -401,6 +406,7 @@ void CreateFlight()
 
 void DisplayAirlineDetails()
 {
+    terminalmsg("List of Airlines for Changi Airport Terminal 5");
     Console.WriteLine("{0,-15}{1}", "Airline Code", "Airline Name");
     foreach (var airline in T5.Airlines)
     {
@@ -422,11 +428,11 @@ void DisplayAirlineDetails()
         else { Console.WriteLine("Code not found"); }
     }
     Console.WriteLine("{0}{1}", "List of flights from ", T5.Airlines[showcode].Name);
-    Console.WriteLine("{0,-15}{1,-25}{2,-25}{3,-25}{4,-25}{5}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure / Arrival Time");
+    Console.WriteLine("{0,-20}{1,-25}{2,-25}{3,-25}{4}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure / Arrival Time");
     foreach (var flight in T5.Airlines[showcode].Flights)
     {
         Flight thisflight = flight.Value;
-        Console.WriteLine("{0,-15}{1,-25}{2,-25}{3,-25}{4,-25}{5}", thisflight.FlightNumber, T5.Airlines[showcode].Name, thisflight.Origin, thisflight.Destination, thisflight.ExpectedTime);
+        Console.WriteLine("{0,-15}{1,-25}{2,-25}{3,-25}{4}", thisflight.FlightNumber, T5.Airlines[showcode].Name, thisflight.Origin, thisflight.Destination, thisflight.ExpectedTime);
     }
     
 }
