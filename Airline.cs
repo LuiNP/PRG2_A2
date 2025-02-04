@@ -4,6 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//==========================================================
+// Student Number	: S10258280G
+// Student Name	: Reyes Luis Raphael Penaredondo
+// (Luis)
+//==========================================================
+
+
 namespace PRG2_A2
 {
     class Airline
@@ -26,6 +33,12 @@ namespace PRG2_A2
         public Dictionary<string, Flight>Flights
         {
             get { return flights; }
+        }
+
+        public Airline(string n, string c) 
+        {
+            name = n;
+            code = c;
         }
 
         public bool AddFlight(Flight flight)
@@ -59,7 +72,7 @@ namespace PRG2_A2
         {
             return "Name: " + Name +
                 "Code; " + Code +
-                "Flights: " + Flights.Keys;
+                "Flights: " + Flights.Count;
         }
     }
 }

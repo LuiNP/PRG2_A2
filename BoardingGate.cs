@@ -4,6 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//==========================================================
+// Student Number	: S10258280G
+// Student Name	: Reyes Luis Raphael Penaredondo
+// (Luis)
+//==========================================================
+
 namespace PRG2_A2
 {
     class BoardingGate
@@ -16,7 +22,7 @@ namespace PRG2_A2
 
         private bool supportsLWTT;
 
-        private Flight flight;
+        private Flight? flight;
         public string GateName
         {
             get { return gateName; }
@@ -40,15 +46,24 @@ namespace PRG2_A2
             set { supportsLWTT = value; }
         }
 
-        public Flight Flight
+        public Flight? Flight
         { 
             get { return flight; } 
             set {  flight = value; } 
         }
 
+        public BoardingGate(string gN, Flight? f, bool cfft, bool ddjb, bool lwtt)
+        {
+            GateName = gN;
+            Flight = f;
+            SupportsCFFT = cfft;
+            SupportsDDJB = ddjb;
+            SupportsLWTT = lwtt;
+        }
+
         public double CalculateFees()
         {
-            return Flight.CalculateFees();
+            return Flight?.CalculateFees() ?? 0.0;// Returns 0 if Flight is null
         }
 
         public override string ToString()
@@ -57,7 +72,7 @@ namespace PRG2_A2
                 "Supports CFFT: " + supportsCFFT +
                 "Supports DDJB: " + supportsDDJB +
                 "Supports LWTT" + supportsLWTT +
-                "Flight: " + Flight.FlightNumber;
+                "Flight: " + (Flight != null ? Flight.FlightNumber : "No Flight Assigned");
         }
     }
 }

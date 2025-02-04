@@ -4,6 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//==========================================================
+// Student Number	: S10258280G
+// Student Name	: Reyes Luis Raphael Penaredondo
+// (Luis)
+//==========================================================
+
 namespace PRG2_A2
 {
     class Terminal
@@ -38,9 +44,14 @@ namespace PRG2_A2
             get { return flights; }
         }
 
+        public Terminal(string tN) 
+        {
+            TerminalName = tN;
+        }
+
         public bool AddAirline(Airline airline)
         {
-            if (Airlines.ContainsKey(airline.Code)) //  check to avoid duplicates
+            if (!Airlines.ContainsKey(airline.Code)) //  check to avoid duplicates
             {
                 Airlines.Add(airline.Code, airline);
                 return true;
@@ -52,7 +63,7 @@ namespace PRG2_A2
         }
         public bool AddBoardingGate(BoardingGate boardingGate)
         {
-            if (BoardingGates.ContainsKey(boardingGate.GateName)) //  check to avoid duplicates
+            if (!BoardingGates.ContainsKey(boardingGate.GateName)) //  check to avoid duplicates
             {
                 BoardingGates.Add(boardingGate.GateName, boardingGate);
                 return true;
@@ -87,11 +98,16 @@ namespace PRG2_A2
 
         public override string ToString()
         {
+
             return "TerminalName: " + TerminalName +
-                "Airlines: " + Airlines.Keys +
-                "Flights: " + Flights.Keys +
-                "BoardingGates: " + BoardingGates.Keys +
-                "GateFees: " + GateFees.Values;
+                "Airlines: " + Airlines.Count +
+                "Flights: " + Flights.Count +
+                "BoardingGates: " + BoardingGates.Count +
+                "GateFees: " + GateFees.Count;
+            /*stumbled on this in my research:
+                "GateFees: " + string.Join(", ", GateFees.Select(kvp => $"[{kvp.Key}: {kvp.Value}]"));
+            that would let me see all the things, but worried it would get very large.
+            */
         }
     }
 }
